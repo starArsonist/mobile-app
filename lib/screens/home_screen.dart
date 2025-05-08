@@ -5,7 +5,7 @@ import 'profile_screen.dart';
 class HomeScreen extends StatelessWidget {
   final List<Task> tasks;
 
-  const HomeScreen({required this.tasks});
+  const HomeScreen({super.key, required this.tasks});
 
   @override
   Widget build(BuildContext context) {

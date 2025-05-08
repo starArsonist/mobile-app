@@ -4,7 +4,7 @@ import '../models/task.dart';
 class AddTaskScreen extends StatefulWidget {
   final Function(Task) onTaskAdded;
 
-  const AddTaskScreen({required this.onTaskAdded});
+  const AddTaskScreen({super.key, required this.onTaskAdded});
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();

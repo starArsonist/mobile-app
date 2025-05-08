@@ -6,6 +6,8 @@ import 'edit_task_screen.dart';
 enum TaskFilter { all, completed, incomplete }
 
 class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
+
   @override
   State<TasksScreen> createState() => _TasksScreenState();
 }
@@ -13,7 +15,7 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   TaskFilter _filter = TaskFilter.all;
 
-  List<Task> _tasks = [];
+  final List<Task> _tasks = [];
 
   List<Task> get _filteredTasks {
     switch (_filter) {

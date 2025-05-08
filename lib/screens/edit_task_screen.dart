@@ -5,7 +5,7 @@ class EditTaskScreen extends StatefulWidget {
   final Task task;
   final Function(Task) onTaskUpdated;
 
-  const EditTaskScreen({required this.task, required this.onTaskUpdated});
+  const EditTaskScreen({super.key, required this.task, required this.onTaskUpdated});
 
   @override
   State<EditTaskScreen> createState() => _EditTaskScreenState();
