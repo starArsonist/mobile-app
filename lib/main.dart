@@ -29,7 +29,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [HomeScreen(), TasksScreen()];
+  final List<Widget> _screens = [HomeScreen(tasks: [],), TasksScreen()];
 
   @override
   Widget build(BuildContext context) {
