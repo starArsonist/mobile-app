@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/task.dart';
+import './profile_screen.dart';
 
 class EditTaskScreen extends StatefulWidget {
   final Task task;
