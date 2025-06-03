@@ -1,44 +1,41 @@
 import 'package:flutter/material.dart';
-import '../models/task.dart';
-import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  final List<Task> tasks;
+  final VoidCallback onStart;
 
-  const HomeScreen({super.key, required this.tasks});
+  const HomeScreen({super.key, required this.onStart});
 
   @override
   Widget build(BuildContext context) {
-    final upcomingTasks =
-        tasks.where((t) => t.deadline.isAfter(DateTime.now())).toList();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Сегодня"),
-        actions: [
-          IconButton(
-            icon: CircleAvatar(child: Icon(Icons.person)),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => ProfileScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: upcomingTasks.length,
-        itemBuilder: (context, index) {
-          final task = upcomingTasks[index];
-          return ListTile(
-            title: Text(task.title),
-            subtitle: Text(
-              "До: ${task.deadline.toLocal().toString().split(' ')[0]}",
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.task, size: 100, color: Colors.grey),
+            SizedBox(height: 20),
+            Text(
+              'Plan your tasks easily',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            trailing: Icon(Icons.arrow_forward_ios),
-          );
-        },
+            SizedBox(height: 10),
+            Text(
+              'Organize your daily notes with the app',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: onStart,
+              child: Text('Start'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

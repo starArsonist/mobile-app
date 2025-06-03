@@ -4,6 +4,7 @@ import 'screens/home_screen.dart';
 import 'screens/tasks_screen.dart';
 import 'screens/calendar_screen.dart';
 import 'screens/statistics_screen.dart';
+import 'screens/search_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,7 +56,11 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _screens = [
-      HomeScreen(tasks: _tasks),
+      HomeScreen(onStart: () {
+        setState(() {
+          _currentIndex = 1; // Переход на экран Tasks
+        });
+      }),
       TasksScreen(
         tasks: _tasks,
         onAddTask: _addNewTask,
@@ -64,6 +69,7 @@ class _MainPageState extends State<MainPage> {
       ),
       CalendarScreen(tasks: _tasks),
       StatisticsScreen(tasks: _tasks),
+      SearchScreen(tasks: _tasks),
     ];
 
     return Scaffold(
@@ -82,6 +88,7 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(icon: Icon(Icons.check_circle_outline), label: 'Tasks'),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Calendar'),
           BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
         ],
       ),
     );
