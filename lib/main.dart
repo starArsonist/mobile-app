@@ -7,7 +7,7 @@ import 'screens/statistics_screen.dart';
 import 'screens/search_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Task Planner',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: MainPage(),
+      home: const MainPage(),
     );
   }
 }
@@ -55,10 +55,11 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    // генерируем актуальные экраны каждый раз, чтобы в них попадал свежий tasks
     final List<Widget> _screens = [
       HomeScreen(onStart: () {
         setState(() {
-          _currentIndex = 1; // Переход на экран Tasks
+          _currentIndex = 1;
         });
       }),
       TasksScreen(
@@ -73,7 +74,10 @@ class _MainPageState extends State<MainPage> {
     ];
 
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         selectedItemColor: Colors.blue,
