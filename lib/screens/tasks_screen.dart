@@ -7,7 +7,18 @@ import 'edit_task_screen.dart';
 enum TaskFilter { all, completed, incomplete }
 
 class TasksScreen extends StatefulWidget {
-  const TasksScreen({super.key, required onAddTask, required List<Task> tasks, required void Function(Task oldTask, Task newTask) onEditTask, required void Function(Task task) onDeleteTask});
+  final List<Task> tasks;
+  final Function(Task) onAddTask;
+  final Function(Task, Task) onEditTask;
+  final Function(Task) onDeleteTask;
+
+  const TasksScreen({
+    super.key,
+    required this.tasks,
+    required this.onAddTask,
+    required this.onEditTask,
+    required this.onDeleteTask,
+  });
 
   @override
   State<TasksScreen> createState() => _TasksScreenState();
@@ -16,16 +27,14 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   TaskFilter _filter = TaskFilter.all;
 
-  final List<Task> _tasks = [];
-
   List<Task> get _filteredTasks {
     switch (_filter) {
       case TaskFilter.completed:
-        return _tasks.where((task) => task.isCompleted).toList();
+        return widget.tasks.where((task) => task.isCompleted).toList();
       case TaskFilter.incomplete:
-        return _tasks.where((task) => !task.isCompleted).toList();
+        return widget.tasks.where((task) => !task.isCompleted).toList();
       default:
-        return _tasks;
+        return widget.tasks;
     }
   }
 
@@ -37,20 +46,20 @@ class _TasksScreenState extends State<TasksScreen> {
 
   void _addNewTask(Task task) {
     setState(() {
-      _tasks.add(task);
+      widget.tasks.add(task);
     });
   }
 
   void _editTask(Task oldTask, Task newTask) {
     setState(() {
-      final index = _tasks.indexOf(oldTask);
-      if (index != -1) _tasks[index] = newTask;
+      final index = widget.tasks.indexOf(oldTask);
+      if (index != -1) widget.tasks[index] = newTask;
     });
   }
 
   void _deleteTask(Task task) {
     setState(() {
-      _tasks.remove(task);
+      widget.tasks.remove(task);
     });
   }
 
@@ -166,18 +175,12 @@ class _TasksScreenState extends State<TasksScreen> {
               ),
               title: Text(task.title),
               subtitle: Text(
-                "Дедлайн: ${task.deadline.toLocal().toString().split(' ')[0]}",
+                "Дедлайн: ${task.deadline.toLocal().toString().split(' ')[0]}\n"
+                "Приоритет: ${task.priority.name.toUpperCase()}",
               ),
-              trailing: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: _getPriorityColor(task.priority),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  task.priority.name.toUpperCase(),
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => widget.onDeleteTask(task),
               ),
             ),
           );

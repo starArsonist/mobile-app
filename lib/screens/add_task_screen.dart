@@ -21,6 +21,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     if (_titleController.text.isEmpty || _deadline == null) return;
 
     final newTask = Task(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: _titleController.text,
       description: _descriptionController.text,
       createdAt: DateTime.now(),

@@ -46,6 +46,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   void _submit() {
     final updatedTask = Task(
+      id: widget.task.id,
       title: _titleController.text,
       description: _descriptionController.text,
       createdAt: widget.task.createdAt,

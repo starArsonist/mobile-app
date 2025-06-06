@@ -6,19 +6,9 @@ class StatisticsScreen extends StatelessWidget {
 
   const StatisticsScreen({super.key, required this.tasks});
 
-  int get completedTasksCount {
-    return tasks.where((task) => task.isCompleted).length;
-  }
-
-  int get overdueTasksCount {
-    return tasks
-        .where((task) => !task.isCompleted && task.deadline.isBefore(DateTime.now()))
-        .length;
-  }
-
-  int get remainingTasksCount {
-    return tasks.where((task) => !task.isCompleted).length - overdueTasksCount;
-  }
+  int get completedTasksCount => tasks.where((task) => task.isCompleted).length;
+  int get totalTasksCount => tasks.length;
+  int get overdueTasksCount => tasks.where((task) => !task.isCompleted && task.deadline.isBefore(DateTime.now())).length;
 
   String get motivationalQuote {
     if (completedTasksCount >= 5)
@@ -31,97 +21,56 @@ class StatisticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Статистика"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Выполнено",
-                      style: TextStyle(fontSize: 18, color: Colors.green),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      "$completedTasksCount задач(и)",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            elevation: 4,
+            child: ListTile(
+              leading: const Icon(Icons.check_circle, color: Colors.green),
+              title: const Text("Выполнено задач"),
+              trailing: Text("$completedTasksCount / $totalTasksCount"),
             ),
-            SizedBox(height: 20),
-            Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Просрочено",
-                      style: TextStyle(fontSize: 18, color: Colors.red),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      "$overdueTasksCount задач(и)",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            elevation: 4,
+            child: ListTile(
+              leading: const Icon(Icons.error, color: Colors.red),
+              title: const Text("Просрочено задач"),
+              trailing: Text("$overdueTasksCount"),
             ),
-            SizedBox(height: 20),
-            Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Осталось",
-                      style: TextStyle(fontSize: 18, color: Colors.orange),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      "$remainingTasksCount задач(и)",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            elevation: 4,
+            child: ListTile(
+              leading: const Icon(Icons.list, color: Colors.blue),
+              title: const Text("Всего задач"),
+              trailing: Text("$totalTasksCount"),
             ),
-            SizedBox(height: 30),
-            Text(
-              "Вдохновляющая цитата:",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 32),
+          Text(
+            "Мотивация:",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.blue.shade50,
+              borderRadius: BorderRadius.circular(12),
             ),
-            SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                motivationalQuote,
-                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-                textAlign: TextAlign.center,
-              ),
-            )
-          ],
-        ),
+            child: Text(
+              motivationalQuote,
+              style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
       ),
     );
   }
